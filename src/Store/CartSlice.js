@@ -16,33 +16,35 @@ const cartActionSlice = createSlice({
     removeToCart: (state, action) => {
       return {
         ...state,
-        listOfItems: state.listOfItems.filter((product) => {
-          product.storeItemId !== action.payload;
-        }),
+        listOfItems: state.listOfItems.filter(
+          (product) => product.storeItemId !== action.payload
+        ),
       };
     },
     incrementSelectedItem: (state, action) => {
       return {
         ...state,
-        listOfItems: state.listOfItems.map((product) => {
-          return product.storeItemId === action.payload
+        listOfItems: state.listOfItems.map((product) =>
+          product.storeItemId === action.payload
             ? { ...product, storeItemQuantity: product.storeItemQuantity + 1 }
-            : product;
-        }),
+            : product
+        ),
       };
     },
     decrementSelectedItem: (state, action) => {
       return {
         ...state,
-        listOfItems: state.listOfItems.map((product) => {
-          return product.storeItemId === action.payload
+        listOfItems: state.listOfItems.map((product) =>
+          product.storeItemId === action.payload
             ? {
                 ...product,
                 storeItemQuantity:
-                  product.quantity > 1 ? product.storeItemQuantity - 1 : 1,
+                  product.storeItemQuantity > 1
+                    ? product.storeItemQuantity - 1
+                    : 1,
               }
-            : product;
-        }),
+            : product
+        ),
       };
     },
   },
