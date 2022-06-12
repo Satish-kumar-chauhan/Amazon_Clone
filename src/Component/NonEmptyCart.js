@@ -5,10 +5,24 @@ import {
   incrementSelectedItem,
   decrementSelectedItem,
 } from '../Store/CartSlice';
+import { setAlertDetails } from '../Store/AlertSlice';
 import { BiRupee } from 'react-icons/bi';
 export default function NonEmptyCart() {
   const listOfItems = useSelector((state) => state.cartManager.listOfItems);
   const dispatch = useDispatch();
+  const handleRemoveItem = (id) => {
+    dispatch(removeToCart(id));
+    dispatch(
+      setAlertDetails({
+        message: 'Item removed from cart successfully',
+        type: 'danger',
+      })
+    );
+    setTimeout(() => {
+      dispatch(setAlertDetails(null));
+    }, 500);
+  };
+
   return (
     <div className="non_empty_cart">
       <h1>Shopping Cart</h1>
@@ -51,7 +65,7 @@ export default function NonEmptyCart() {
                     <BiRupee />
                     {d.storeItemPrice}
                   </p>
-                  <button onClick={() => dispatch(removeToCart(d.storeItemId))}>
+                  <button onClick={() => handleRemoveItem(d.storeItemId)}>
                     Remove item
                   </button>
                 </div>

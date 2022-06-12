@@ -8,9 +8,18 @@ const cartActionSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      const inCart = state.listOfItems.find((item) =>
+        item.storeItemId === action.payload.storeItemId ? true : false
+      );
       return {
         ...state,
-        listOfItems: [...state.listOfItems, action.payload],
+        listOfItems: inCart
+          ? state.listOfItems.map((item) =>
+              item.storeItemId === action.payload.storeItemId
+                ? { ...item, storeItemQuantity: item.storeItemQuantity + 1 }
+                : item
+            )
+          : [...state.listOfItems, action.payload],
       };
     },
     removeToCart: (state, action) => {

@@ -49,7 +49,7 @@ const itemData = [
   ],
 ];
 
-export default function Home() {
+export default function Home({ alert }) {
   return (
     <>
       <div className="main_page_slider">
@@ -74,7 +74,7 @@ export default function Home() {
         <Product pTitle="Top picks for your home" itemData={itemData[1]} />
       </div>
       <div className="product_Container2">
-        <TodayDeals />
+        <TodayDeals alert={alert} />
       </div>
     </>
   );

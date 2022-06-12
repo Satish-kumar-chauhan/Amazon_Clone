@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { BiRupee, BiStar } from 'react-icons/bi';
 import { AiFillStar } from 'react-icons/ai';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { Rating } from 'react-simple-star-rating';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../Store/CartSlice';
+import { setAlertDetails } from '../Store/AlertSlice';
 const todayDeals = [
   {
     itmDiscount: '17%',
@@ -126,13 +127,31 @@ const todayDeals = [
     itemPrice: 1899,
   },
 ];
-
+import { AlertContext } from '../App';
 export default function TodayDeals() {
   const dispatch = useDispatch();
   const handleRating = (e) => {
     console.log(e);
   };
-
+  const handleAddToCart = (id, img, qty, rate) => {
+    dispatch(
+      addToCart({
+        storeItemId: id,
+        storeItemImg: img,
+        storeItemQuantity: qty,
+        storeItemPrice: rate,
+      })
+    );
+    dispatch(
+      setAlertDetails({
+        message: 'Item added to cart successfully',
+        type: 'success',
+      })
+    );
+    setTimeout(() => {
+      dispatch(setAlertDetails(null));
+    }, 500);
+  };
   return (
     <div className="today_deals">
       <h1>Today’s Deals</h1>
@@ -161,14 +180,7 @@ export default function TodayDeals() {
                 <div className="today_deals_addcart">
                   <button
                     onClick={() =>
-                      dispatch(
-                        addToCart({
-                          storeItemId: td.itemId,
-                          storeItemImg: td.itmImg,
-                          storeItemQuantity: 1,
-                          storeItemPrice: td.itemPrice,
-                        })
-                      )
+                      handleAddToCart(td.itemId, td.itmImg, 1, td.itemPrice)
                     }
                   >
                     Add To Cart
